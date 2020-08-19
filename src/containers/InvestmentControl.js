@@ -7,11 +7,11 @@ class InvestmentControl extends Component {
         investmentAmount: 100000,
         availableAmount: 100000,
         investmentOptions: [
-            {id: 0, investOptionId: null, percentage: 0},
-            {id: 1, investOptionId: null, percentage: 0},
-            {id: 2, investOptionId: null, percentage: 0},
-            {id: 3, investOptionId: null, percentage: 0},
-            {id: 4, investOptionId: null, percentage: 0},
+            {id: 0, investOptionId: -1, percentage: ''},
+            {id: 1, investOptionId: -1, percentage: ''},
+            {id: 2, investOptionId: -1, percentage: ''},
+            {id: 3, investOptionId: -1, percentage: ''},
+            {id: 4, investOptionId: -1, percentage: ''},
         ]
     };
 
@@ -20,21 +20,67 @@ class InvestmentControl extends Component {
             investmentAmount: event.target.value,
             availableAmount: event.target.value,
         });
-    }
+    };
+
+    deleteInvestmentOptionHandler = (id) => {
+        this.setState({
+            investmentOptions: this.state.investmentOptions.filter(io => io.id !== id),
+        });
+    };
+
+    optionChangedHandler = (event, id) => {
+        let updatedInvestmentOptions = this.state.investmentOptions.slice();
+        const index = updatedInvestmentOptions.findIndex(io => io.id === id);
+        updatedInvestmentOptions[index].investOptionId = event.target.value;
+        this.setState({
+            investmentOptions: updatedInvestmentOptions
+        });
+    };
+
+    percentageChangedHandler = (event, id) => {
+        let updatedInvestmentOptions = this.state.investmentOptions.slice();
+        const index = updatedInvestmentOptions.findIndex(io => io.id === id);
+        updatedInvestmentOptions[index].percentage = event.target.value;
+
+        let updatedAvailableAmount = this.state.investmentAmount;
+        for (let investOption of this.state.investmentOptions) {
+            if (investOption.percentage) {
+                updatedAvailableAmount -= this.state.investmentAmount * investOption.percentage / 100;
+            }
+                
+        }
+
+        this.setState({
+            investmentOptions: updatedInvestmentOptions,
+            availableAmount: updatedAvailableAmount,
+        });
+    };
 
     render() {
         const investOptions = [
-            {id: 1, name: 'Cash investments'},
-            {id: 2, name: 'Fixed interest'},
-            {id: 3, name: 'Shares'}
+            {id: -1, name: '--select--'},
+            {id: 0, name: 'Cash investments'},
+            {id: 1, name: 'Fixed interest'},
+            {id: 2, name: 'Shares'}
         ];
 
-        const investmentOptions = this.state.investmentOptions.map(io => 
-            <InvestmentOption 
+        const investmentOptions = this.state.investmentOptions.map(io => {
+            let amount = null;
+            if (io.percentage) {
+                amount = this.state.investmentAmount * io.percentage / 100;
+            }
+            return <InvestmentOption 
                 key={io.id} 
                 options={investOptions} 
-                percentage={io.percentage} 
-            />);
+                percentage={io.percentage}
+                value={io.investOptionId}
+                amount={amount}
+                optionChanged={(e) => this.optionChangedHandler(e, io.id)}
+                percentageChanged={(e) => this.percentageChangedHandler(e, io.id)}
+                clicked={() => this.deleteInvestmentOptionHandler(io.id)}
+            />
+        }
+            );
         return (
             <React.Fragment>
                 <div>
