@@ -28,6 +28,14 @@ class InvestmentControl extends Component {
         });
     };
 
+    addInvestmentOptionHandler = () => {
+        const newId = this.state.investmentOptions[this.state.investmentOptions.length-1].id + 1;
+        let updatedInvestmentOptions = this.state.investmentOptions.concat({id: newId, investOptionId: -1, percentage: ''});
+        this.setState({
+            investmentOptions: updatedInvestmentOptions
+        });
+    };
+
     optionChangedHandler = (event, id) => {
         let updatedInvestmentOptions = this.state.investmentOptions.slice();
         const index = updatedInvestmentOptions.findIndex(io => io.id === id);
@@ -89,6 +97,7 @@ class InvestmentControl extends Component {
                 </div>
                 <div>Available Amount : {this.state.availableAmount}</div>
                 {investmentOptions}
+                <button onClick={this.addInvestmentOptionHandler}>Add</button>
             </React.Fragment>
         )
     }
