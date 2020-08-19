@@ -75,6 +75,7 @@ class InvestmentControl extends Component {
                 percentage={io.percentage}
                 value={io.investOptionId}
                 amount={amount}
+                disabled={this.state.investmentOptions.length <= 1}
                 optionChanged={(e) => this.optionChangedHandler(e, io.id)}
                 percentageChanged={(e) => this.percentageChangedHandler(e, io.id)}
                 clicked={() => this.deleteInvestmentOptionHandler(io.id)}

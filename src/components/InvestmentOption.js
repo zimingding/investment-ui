@@ -11,7 +11,7 @@ const investmentOption = (props) => {
             </select>
             <input className={styles.InputElement} type="text" onChange={props.percentageChanged} value={props.percentage} placeholder="%"/>
             {props.amount}
-            <button onClick={props.clicked}>Delete</button>
+            <button onClick={props.clicked} disabled={props.disabled}>Delete</button>
     </div>
     );
 
