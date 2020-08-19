@@ -27,9 +27,10 @@ class InvestmentControl extends Component {
     }
 
     investmentAmountChangedHandler = (event) => {
+        let newInvestmentAmount = event.target.value;
         this.setState({
-            investmentAmount: event.target.value,
-            availableAmount: event.target.value,
+            investmentAmount: newInvestmentAmount,
+            availableAmount: this.calculateAvailableAmount(newInvestmentAmount),
         });
     };
 
@@ -61,19 +62,23 @@ class InvestmentControl extends Component {
         const index = updatedInvestmentOptions.findIndex(io => io.id === id);
         updatedInvestmentOptions[index].percentage = event.target.value;
 
-        let updatedAvailableAmount = this.state.investmentAmount;
-        for (let investOption of this.state.investmentOptions) {
-            if (investOption.percentage) {
-                updatedAvailableAmount -= this.state.investmentAmount * investOption.percentage / 100;
-            }
-                
-        }
+        let updatedAvailableAmount = this.calculateAvailableAmount(this.state.investmentAmount);
 
         this.setState({
             investmentOptions: updatedInvestmentOptions,
             availableAmount: updatedAvailableAmount,
         });
     };
+
+    calculateAvailableAmount = (investmentAmount) => {
+        let availableAmount = investmentAmount;
+        for (let investOption of this.state.investmentOptions) {
+            if (investOption.percentage) {
+                availableAmount -= investmentAmount * investOption.percentage / 100;
+            }
+        }
+        return availableAmount;
+    }
 
     render() {
         const investmentOptions = this.state.investmentOptions.map(io => {

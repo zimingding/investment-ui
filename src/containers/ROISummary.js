@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
 class ROISummary extends Component {
-
     state = {
-        projectedReturn: 0,
-        totalFees: 0
+        projectedReturn: '',
+        totalFees: ''
     };
 
     render() {
