@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class ROISummary extends Component {
     state = {
         projectedReturn: '',
         totalFees: ''
+    };
+
+    calculate = () => {
+        console.log('fetch result ...', this.props.investmentAmount, this.props.investmentOptions);
     };
 
     render() {
@@ -22,4 +27,12 @@ class ROISummary extends Component {
     }
 }
 
-export default ROISummary;
+const mapStateToProps = state => {
+    return {
+        investmentAmount: state.investmentAmount,
+        availableAmount: state.availableAmount,
+        investmentOptions: state.investmentOptions,
+    };
+};
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(ROISummary);

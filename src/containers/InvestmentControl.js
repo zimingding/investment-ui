@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 import InvestmentOption from '../components/InvestmentOption';
+import * as actionTypes from '../store/actions';
 
 class InvestmentControl extends Component {
     state = {
-        investmentAmount: 100000,
-        availableAmount: 100000,
         options: [{id: -1, name: '--select--'}],
-        investmentOptions: [
-            {id: 0, investOptionId: -1, percentage: ''},
-            {id: 1, investOptionId: -1, percentage: ''},
-            {id: 2, investOptionId: -1, percentage: ''},
-            {id: 3, investOptionId: -1, percentage: ''},
-            {id: 4, investOptionId: -1, percentage: ''},
-        ]
     };
 
     componentDidMount() {
@@ -26,65 +19,11 @@ class InvestmentControl extends Component {
             });
     }
 
-    investmentAmountChangedHandler = (event) => {
-        let newInvestmentAmount = event.target.value;
-        this.setState({
-            investmentAmount: newInvestmentAmount,
-            availableAmount: this.calculateAvailableAmount(newInvestmentAmount),
-        });
-    };
-
-    deleteInvestmentOptionHandler = (id) => {
-        this.setState({
-            investmentOptions: this.state.investmentOptions.filter(io => io.id !== id),
-        });
-    };
-
-    addInvestmentOptionHandler = () => {
-        const newId = this.state.investmentOptions[this.state.investmentOptions.length-1].id + 1;
-        let updatedInvestmentOptions = this.state.investmentOptions.concat({id: newId, investOptionId: -1, percentage: ''});
-        this.setState({
-            investmentOptions: updatedInvestmentOptions
-        });
-    };
-
-    optionChangedHandler = (event, id) => {
-        let updatedInvestmentOptions = this.state.investmentOptions.slice();
-        const index = updatedInvestmentOptions.findIndex(io => io.id === id);
-        updatedInvestmentOptions[index].investOptionId = event.target.value;
-        this.setState({
-            investmentOptions: updatedInvestmentOptions
-        });
-    };
-
-    percentageChangedHandler = (event, id) => {
-        let updatedInvestmentOptions = this.state.investmentOptions.slice();
-        const index = updatedInvestmentOptions.findIndex(io => io.id === id);
-        updatedInvestmentOptions[index].percentage = event.target.value;
-
-        let updatedAvailableAmount = this.calculateAvailableAmount(this.state.investmentAmount);
-
-        this.setState({
-            investmentOptions: updatedInvestmentOptions,
-            availableAmount: updatedAvailableAmount,
-        });
-    };
-
-    calculateAvailableAmount = (investmentAmount) => {
-        let availableAmount = investmentAmount;
-        for (let investOption of this.state.investmentOptions) {
-            if (investOption.percentage) {
-                availableAmount -= investmentAmount * investOption.percentage / 100;
-            }
-        }
-        return availableAmount;
-    }
-
     render() {
-        const investmentOptions = this.state.investmentOptions.map(io => {
+        const investmentOptions = this.props.investmentOptions.map(io => {
             let amount = null;
             if (io.percentage) {
-                amount = this.state.investmentAmount * io.percentage / 100;
+                amount = this.props.investmentAmount * io.percentage / 100;
             }
             return <InvestmentOption 
                 key={io.id}
@@ -92,24 +31,42 @@ class InvestmentControl extends Component {
                 percentage={io.percentage}
                 value={io.investOptionId}
                 amount={amount}
-                disabled={this.state.investmentOptions.length <= 1}
-                optionChanged={(e) => this.optionChangedHandler(e, io.id)}
-                percentageChanged={(e) => this.percentageChangedHandler(e, io.id)}
-                clicked={() => this.deleteInvestmentOptionHandler(io.id)}
+                disabled={this.props.investmentOptions.length <= 1}
+                optionChanged={(e) => this.props.onUpdateInvestmentOption(e, io.id)}
+                percentageChanged={(e) => this.props.onUpdatePercentage(e, io.id)}
+                clicked={() => this.props.onDeleteInvestmentOption(io.id)}
             />
-        }
-            );
+        });
+        
         return (
             <React.Fragment>
                 <div>
-                    Investment Amount <input type="text" value={this.state.investmentAmount} onChange={this.investmentAmountChangedHandler} />
+                    Investment Amount <input type="text" value={this.props.investmentAmount} onChange={this.props.onUpdateAmount} />
                 </div>
-                <div>Available Amount : {this.state.availableAmount}</div>
+                <div>Available Amount : {this.props.availableAmount}</div>
                 {investmentOptions}
-                <button onClick={this.addInvestmentOptionHandler}>Add</button>
+                <button onClick={this.props.onAddInvestmentOption}>Add</button>
             </React.Fragment>
         )
     }
 }
 
-export default InvestmentControl;
+const mapStateToProps = state => {
+    return {
+        investmentAmount: state.investmentAmount,
+        availableAmount: state.availableAmount,
+        investmentOptions: state.investmentOptions,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onUpdateAmount: (e) => dispatch({type: actionTypes.UPDATE_AMOUNT, amount: e.target.value}),
+        onAddInvestmentOption: () => dispatch({type: actionTypes.ADD_INVESTMENT_OPTION}),
+        onDeleteInvestmentOption: (id) => dispatch({type: actionTypes.DELETE_INVESTMENT_OPTION, id: id}),
+        onUpdateInvestmentOption: (e, id) => dispatch({type: actionTypes.UPDATE_INVESTMENT_OPTION, id: id, optionId: e.target.value}),
+        onUpdatePercentage: (e, id) => dispatch({type: actionTypes.UPDATE_PERCENTAGE, id: id, percentage: e.target.value}),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InvestmentControl);
