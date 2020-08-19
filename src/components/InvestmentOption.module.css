@@ -1,0 +1,17 @@
+.Input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.InputElement {
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 6px 10px;
+}
+
+.InputElement:focus {
+    outline: none;
+    background-color: #ccc;
+}
