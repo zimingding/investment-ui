@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import InvestmentOption from '../components/InvestmentOption';
 
@@ -6,6 +7,7 @@ class InvestmentControl extends Component {
     state = {
         investmentAmount: 100000,
         availableAmount: 100000,
+        options: [{id: -1, name: '--select--'}],
         investmentOptions: [
             {id: 0, investOptionId: -1, percentage: ''},
             {id: 1, investOptionId: -1, percentage: ''},
@@ -14,6 +16,15 @@ class InvestmentControl extends Component {
             {id: 4, investOptionId: -1, percentage: ''},
         ]
     };
+
+    componentDidMount() {
+        axios.get('http://localhost:5000/investment/options')
+            .then(response => {
+                this.setState({
+                    options: this.state.options.concat(response.data),
+                });
+            });
+    }
 
     investmentAmountChangedHandler = (event) => {
         this.setState({
@@ -65,21 +76,14 @@ class InvestmentControl extends Component {
     };
 
     render() {
-        const investOptions = [
-            {id: -1, name: '--select--'},
-            {id: 0, name: 'Cash investments'},
-            {id: 1, name: 'Fixed interest'},
-            {id: 2, name: 'Shares'}
-        ];
-
         const investmentOptions = this.state.investmentOptions.map(io => {
             let amount = null;
             if (io.percentage) {
                 amount = this.state.investmentAmount * io.percentage / 100;
             }
             return <InvestmentOption 
-                key={io.id} 
-                options={investOptions} 
+                key={io.id}
+                options={this.state.options}
                 percentage={io.percentage}
                 value={io.investOptionId}
                 amount={amount}

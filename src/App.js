@@ -15,10 +15,10 @@ function App() {
                 <Tab>ROI</Tab>
             </TabList>
 
-            <TabPanel>
+            <TabPanel forceRender={true} >
               <InvestmentControl />
             </TabPanel>
-            <TabPanel>
+            <TabPanel forceRender={true} >
               <ROISummary />
             </TabPanel>
         </Tabs>

@@ -12,11 +12,11 @@ class ROISummary extends Component {
             <React.Fragment>
                 <div>
                     Projected Return In 1 Year
-                    <input type="text" value={this.state.projectedReturn}></input>
+                    <input type="text" value={this.state.projectedReturn} readOnly="readonly"></input>
                 </div>
                 <div>
                     Total Fees
-                    <input type="text" value={this.state.totalFees}></input>
+                    <input type="text" value={this.state.totalFees} readOnly="readonly"></input>
                 </div>
             </React.Fragment>
         );
