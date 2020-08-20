@@ -29,3 +29,8 @@
 .Legend {
     margin: 10px 0;
 }
+
+.Invalid {
+    margin: 6px 15px;
+    color: red;
+}

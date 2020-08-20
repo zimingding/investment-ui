@@ -33,6 +33,8 @@ class InvestmentControl extends Component {
                 value={io.investOptionId}
                 amount={amount}
                 disabled={this.props.investmentOptions.length <= 1}
+                invalid={io.invalid}
+                touched={io.touched}
                 optionChanged={(e) => this.props.onUpdateInvestmentOption(e, io.id)}
                 percentageChanged={(e) => this.props.onUpdatePercentage(e, io.id)}
                 clicked={() => this.props.onDeleteInvestmentOption(io.id)}
@@ -53,6 +55,7 @@ class InvestmentControl extends Component {
                 <legend>Investment Option</legend>
                     {investmentOptions}
                     <button className={styles.Button} onClick={this.props.onAddInvestmentOption}>Add</button>
+                    {this.props.availableAmount !== 0 && <p className={styles.Invalid}>{this.props.error}</p>}
                 </fieldset>
             </div>
         )
