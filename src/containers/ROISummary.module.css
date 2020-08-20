@@ -1,7 +1,9 @@
-.Input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+.Container {
+    display: flex;
+}
+
+.Column {
+    margin: 10px;
 }
 
 .InputElement {
@@ -15,12 +17,4 @@
 .InputElement:focus {
     outline: none;
     background-color: #ccc;
-}
-
-.Button {
-    background-color: transparent;
-    outline: none;
-    cursor: pointer;
-    font: inherit;
-    margin: 10px;
 }

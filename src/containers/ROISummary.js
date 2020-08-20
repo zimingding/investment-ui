@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import styles from './ROISummary.module.css';
 
 class ROISummary extends Component {
     state = {
@@ -32,14 +33,19 @@ class ROISummary extends Component {
     render() {
         return (
             <React.Fragment>
-                <div>
-                    Projected Return In 1 Year
-                    <input type="text" value={this.state.projectedReturn} readOnly="readonly"></input>
-                </div>
-                <div>
-                    Total Fees
-                    <input type="text" value={this.state.totalFees} readOnly="readonly"></input>
-                </div>
+                <fieldset>
+                    <legend>ROI</legend>
+                    <div className={styles.Container}>
+                        <div className={styles.Column}>
+                            Projected Return In 1 Year
+                            <input className={styles.InputElement} type="text" value={this.state.projectedReturn} readOnly="readonly"></input>
+                        </div>
+                        <div className={styles.Column}>
+                            Total Fees
+                            <input className={styles.InputElement} type="text" value={this.state.totalFees} readOnly="readonly"></input>
+                        </div>
+                    </div>
+                </fieldset>
             </React.Fragment>
         );
     }

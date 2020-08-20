@@ -1,9 +1,3 @@
-.Input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
 .InputElement {
     outline: none;
     border: 1px solid #ccc;
@@ -22,5 +16,12 @@
     outline: none;
     cursor: pointer;
     font: inherit;
+    padding: 10px;
+    margin: 15px;
+    font-weight: bold;
+}
+
+.Main {
     margin: 10px;
+    width: 768px;
 }

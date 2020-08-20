@@ -6,12 +6,12 @@ const investmentOption = (props) => {
 
     return (
         <div className={styles.Input}>
-            <select value={props.value} onChange={props.optionChanged}>
+            <select className={styles.InputElement} value={props.value} onChange={props.optionChanged}>
                 {options}
             </select>
             <input className={styles.InputElement} type="text" onChange={props.percentageChanged} value={props.percentage} placeholder="%"/>
             {props.amount}
-            <button onClick={props.clicked} disabled={props.disabled}>Delete</button>
+            <button className={styles.Button} onClick={props.clicked} disabled={props.disabled}>Delete</button>
     </div>
     );
 

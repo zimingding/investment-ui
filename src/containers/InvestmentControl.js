@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import InvestmentOption from '../components/InvestmentOption';
 import * as actionTypes from '../store/actions';
+import styles from './InvestmentControl.module.css';
 
 class InvestmentControl extends Component {
     state = {
@@ -39,14 +40,21 @@ class InvestmentControl extends Component {
         });
         
         return (
-            <React.Fragment>
+            <div className={styles.Main}>
                 <div>
-                    Investment Amount <input type="text" value={this.props.investmentAmount} onChange={this.props.onUpdateAmount} />
+                    Investment Amount
+                    <input className={styles.InputElement} type="text" value={this.props.investmentAmount} onChange={this.props.onUpdateAmount} />
                 </div>
-                <div>Available Amount : {this.props.availableAmount}</div>
-                {investmentOptions}
-                <button onClick={this.props.onAddInvestmentOption}>Add</button>
-            </React.Fragment>
+                <div>
+                    Available Amount :
+                    {this.props.availableAmount}
+                </div>
+                <fieldset>
+                <legend>Investment Option</legend>
+                    {investmentOptions}
+                    <button className={styles.Button} onClick={this.props.onAddInvestmentOption}>Add</button>
+                </fieldset>
+            </div>
         )
     }
 }
