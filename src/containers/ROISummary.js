@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class ROISummary extends Component {
     state = {
@@ -8,7 +9,24 @@ class ROISummary extends Component {
     };
 
     calculate = () => {
-        console.log('fetch result ...', this.props.investmentAmount, this.props.investmentOptions);
+        const data = {
+            investmentDetails: this.props.investmentOptions.map(io => {
+                return {
+                    investmentOptionId: Number(io.investOptionId),
+                    percentage: Number(io.percentage),
+                    amount: this.props.investmentAmount * io.percentage / 100
+                };
+            })
+        };
+        
+        axios.post('http://localhost:5000/investment/calculate', data)
+            .then(response => {
+                this.setState({
+                    projectedReturn: response.data.investmentReturn,
+                    totalFees: response.data.fees,
+                });
+            }
+        );
     };
 
     render() {
