@@ -55,7 +55,8 @@ class InvestmentControl extends Component {
                 <legend>Investment Option</legend>
                     {investmentOptions}
                     <button className={styles.Button} onClick={this.props.onAddInvestmentOption}>Add</button>
-                    {this.props.availableAmount !== 0 && <p className={styles.Invalid}>{this.props.error}</p>}
+                    {this.props.availableAmount < 0 && <p className={styles.Invalid}>Investment option should not exceed 100 percent</p>}
+                    {this.props.availableAmount > 0 && <p className={styles.Invalid}>{this.props.error}</p>}
                 </fieldset>
             </div>
         )
