@@ -49,7 +49,7 @@ class InvestmentControl extends Component {
                     Available Amount :
                     {this.props.availableAmount}
                 </div>
-                <fieldset>
+                <fieldset className={styles.Legend}>
                 <legend>Investment Option</legend>
                     {investmentOptions}
                     <button className={styles.Button} onClick={this.props.onAddInvestmentOption}>Add</button>

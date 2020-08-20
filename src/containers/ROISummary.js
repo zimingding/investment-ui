@@ -32,21 +32,19 @@ class ROISummary extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <fieldset>
-                    <legend>ROI</legend>
-                    <div className={styles.Container}>
-                        <div className={styles.Column}>
-                            Projected Return In 1 Year
-                            <input className={styles.InputElement} type="text" value={this.state.projectedReturn} readOnly="readonly"></input>
-                        </div>
-                        <div className={styles.Column}>
-                            Total Fees
-                            <input className={styles.InputElement} type="text" value={this.state.totalFees} readOnly="readonly"></input>
-                        </div>
+            <fieldset className={styles.Main}>
+                <legend>ROI</legend>
+                <div className={styles.Container}>
+                    <div className={styles.Column}>
+                        Projected Return In 1 Year
+                        <input className={styles.InputElement} type="text" value={this.state.projectedReturn} readOnly="readonly"></input>
                     </div>
-                </fieldset>
-            </React.Fragment>
+                    <div className={styles.Column}>
+                        Total Fees
+                        <input className={styles.InputElement} type="text" value={this.state.totalFees} readOnly="readonly"></input>
+                    </div>
+                </div>
+            </fieldset>
         );
     }
 }

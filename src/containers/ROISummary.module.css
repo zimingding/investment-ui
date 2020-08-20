@@ -18,3 +18,8 @@
     outline: none;
     background-color: #ccc;
 }
+
+.Main {
+    margin: 10px;
+    width: 768px;
+}
